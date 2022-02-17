@@ -1,0 +1,4 @@
+plugin:
+    source:
+        providers:
+            directory_of_associations:
