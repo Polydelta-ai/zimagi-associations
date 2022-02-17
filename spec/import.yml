@@ -1,0 +1,47 @@
+_directory_of_associations_import: &directory_of_associations_import
+    source: directory_of_associations
+    data:
+        association:
+            map:
+                name:
+                    column: name
+                    validators:
+                        string:
+                            empty: false
+                type:
+                    column: type
+                    validators:
+                        string:
+                            empty: false
+                city:
+                    column: city
+                    validators:
+                        string:
+                            empty: false
+                state:
+                    column: state
+                    validators:
+                        string:
+                            empty: false
+                zipcode:
+                    column: zipcode
+                    validators:
+                        string:
+                            empty: false
+                url:
+                    column: url
+                bio:
+                    column: bio
+                budget:
+                    column: budget
+                member_count:
+                    column: member_count
+                staff_count:
+                    column: staff_count
+                year_founded:
+                    column: year_founded
+
+import:
+    directory_of_associations:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
