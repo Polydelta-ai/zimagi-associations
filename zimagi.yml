@@ -1,5 +1,7 @@
 name: associations
 
+requirements: requirements.txt
+
 modules:
     - remote: https://github.com/Polydelta-ai/zimagi-organizations.git
       reference: main
