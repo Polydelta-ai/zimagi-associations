@@ -34,12 +34,16 @@ _directory_of_associations_import: &directory_of_associations_import
                     column: bio
                 budget:
                     column: budget
+                    formatter: number
                 member_count:
                     column: member_count
+                    formatter: integer
                 staff_count:
                     column: staff_count
+                    formatter: integer
                 year_founded:
                     column: year_founded
+                    formatter: integer
 
 import:
     directory_of_associations:
