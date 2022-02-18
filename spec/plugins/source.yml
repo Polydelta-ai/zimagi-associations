@@ -2,3 +2,8 @@ plugin:
     source:
         providers:
             directory_of_associations:
+                option:
+                    states:
+                        type: list
+                        default: null
+                        help: "States to lookup."
