@@ -7,6 +7,8 @@ import requests
 
 class Provider(BaseProvider('source', 'directory_of_associations')):
 
+    base_url = 'https://directoryofassociations.com/browse.asp'
+
     state_codes = [
         'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
         'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME',
@@ -17,87 +19,81 @@ class Provider(BaseProvider('source', 'directory_of_associations')):
 
 
     def item_columns(self):
-        return ['name', 'type', 'url', 'city', 'state', 'zipcode', 'bio', 'member_count', 'staff_count', 'year_founded', 'budget']
+        return [
+            'name',
+            'type',
+            'url',
+            'bio',
+            'city',
+            'state',
+            'zipcode',
+            'member_count',
+            'staff_count',
+            'year_founded',
+            'budget'
+        ]
 
 
     def load_items(self, context):
+        request_options = [ 'n=', 'c=', 'z=', 't1=', 'g=', 'm=' ]
+
         for state_code in self.state_codes:
-            page = 1
-            while page > 0:
-                base_url = 'https://directoryofassociations.com/browse.asp?dp='+str(page)+'&n=&s='+state_code+'&c=&z=&t1=&g=&m='
-                page = requests.get(base_url)
-                soup = BeautifulSoup(page.content, "html.parser")
-                results = soup.find_all("tr", class_="")
-                if results:
-                    for result in results:
-                        data = {}
-                        org_href = result.find('a')['href']
-                        org_name = result.find('a').find('strong').text
-                        data['name'] = org_name
+            page = self.command.get_state(self._get_page_state_name(state_code), 1)
 
-                        org_dir_url = 'https://directoryofassociations.com/' + org_href
-                        org_dir_page = requests.get(org_dir_url)
-                        org_dir_soup = BeautifulSoup(org_dir_page.content, "html.parser")
+            while True:
+                self.command.notice("Retrieving Directory of Associations [ {} ] page {}".format(state_code, page))
+                query_params = "&".join(request_options + [ "s={}".format(state_code), "dp={}".format(page) ])
+                response = requests.get("{}?{}".format(self.base_url, query_params))
 
-                        org_url = org_dir_soup.find('div', class_='jumbotron').find('h2').text
-                        data['url'] = org_url
+                soup = BeautifulSoup(response.content, 'html.parser')
+                results = soup.find_all('tr', class_ = '')
+                if not results:
+                    break
 
-                        org_address = org_dir_soup.find('div', class_='jumbotron').find('p')
+                for result in results:
+                    link = result.find('a')['href']
+                    name = result.find('a').find('strong').text
 
-                        org_address_locality = org_address.find('span',itemprop='locality').text
-                        data['city'] = org_address_locality
+                    info_response = requests.get("https://directoryofassociations.com/{}".format(link))
+                    org_dir_soup = BeautifulSoup(info_response.content, 'html.parser')
 
-                        org_address_region = org_address.find('span',itemprop='region').text
-                        data['state'] = state_code
+                    address = org_dir_soup.find('div', class_='jumbotron').find('p')
+                    summary = org_dir_soup.find_all('div', class_='row')[1].find_all('span')
 
-                        org_address_zip = org_address.find('span',itemprop='postal-code').text
-                        data['zipcode'] = org_address_zip
+                    yield {
+                        'name': name,
+                        'url': self._get_text(org_dir_soup.find('div', class_='jumbotron').find('h2')),
+                        'bio': self._get_text(org_dir_soup.find('div', class_ = 'col-md-12').find('p')),
+                        'state': state_code,
+                        'city': self._get_text(address.find('span', itemprop = 'locality')),
+                        'zipcode': self._get_text(address.find('span', itemprop = 'postal-code')),
+                        'member_count': self._get_text(summary[0]),
+                        'year_founded': self._get_text(summary[1]),
+                        'staff_count': self._get_text(summary[2]),
+                        'budget': self._get_text(summary[3]),
+                        'type': self._get_text(summary[5])
+                    }
+                    self.command.sleep(0.5)
 
-                        org_bio = org_dir_soup.find('div', class_='col-md-12').find('p').text
-                        data['bio'] = org_bio
+                page += 1
+                self.command.set_state(self._get_page_state_name(state_code), page)
+                self.command.sleep(2)
 
-                        org_info_summary = org_dir_soup.find_all('div', class_='row')[1].find_all('span')
-                        try:
-                            data['member_count'] = org_info_summary[0].text
-                        except:
-                            data['member_count'] = ''
-
-                        try:
-                            data['staff_count'] = org_info_summary[2].text
-                        except:
-                            data['staff_count'] = ''
-
-                        try:
-                            data['year_founded'] = org_info_summary[1].text
-                        except:
-                            data['year_founded'] = ''
-
-                        try:
-                            data['budget'] = org_info_summary[3].text
-                        except:
-                            data['budget'] = ''
-
-                        try:
-                            data['type'] = org_info_summary[5].text
-                        except:
-                            data['type'] = ''
-
-                        yield data
-
-                    page += 1
+            self.command.delete_state(self._get_page_state_name(state_code))
 
 
     def load_item(self, association, context):
-        return [
-            association['name'],
-            association['type'],
-            association['url'],
-            association['city'],
-            association['state'],
-            association['zipcode'],
-            association['bio'],
-            association['member_count'],
-            association['staff_count'],
-            association['year_founded'],
-            association['budget']
-        ]
+        values = []
+        for field in self.item_columns():
+            values.append(association[field])
+        return values
+
+
+    def _get_page_state_name(self, state_code):
+        return "directory_of_associations_{}_page".format(state_code.lower())
+
+    def _get_text(self, element):
+        try:
+            return element.text
+        except Exception:
+            return ''
