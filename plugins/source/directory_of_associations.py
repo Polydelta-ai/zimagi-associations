@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 
 from systems.plugins.index import BaseProvider
+from utility.data import ensure_list
 
 import requests
 
@@ -37,7 +38,9 @@ class Provider(BaseProvider('source', 'directory_of_associations')):
     def load_items(self, context):
         request_options = [ 'n=', 'c=', 'z=', 't1=', 'g=', 'm=' ]
 
-        for state_code in self.state_codes:
+        state_codes = ensure_list(self.field_states) if self.field_states else self.state_codes
+
+        for state_code in state_codes:
             page = self.command.get_state(self._get_page_state_name(state_code), 1)
 
             while True:
@@ -71,7 +74,7 @@ class Provider(BaseProvider('source', 'directory_of_associations')):
                         'year_founded': self._get_text(summary[1]),
                         'staff_count': self._get_text(summary[2]),
                         'budget': self._get_text(summary[3]),
-                        'type': self._get_text(summary[5])
+                        'type': self._get_text(summary[5] if len(summary) > 5 else None)
                     }
                     self.command.sleep(0.5)
 
