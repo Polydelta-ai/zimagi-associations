@@ -19,7 +19,7 @@ pre_run:
             year_founded:
                 type: integer
             budget:
-                type: float
+                type: string
 
 run:
     admin_role:

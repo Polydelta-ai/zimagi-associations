@@ -72,10 +72,11 @@ data:
           'null': true
           default: null
       budget:
-        type: '@django.FloatField'
+        type: '@django.CharField'
         options:
           'null': true
           default: null
+          max_length: 256
     meta:
       unique_together: []
 command_mixins:
