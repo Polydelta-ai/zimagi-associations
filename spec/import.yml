@@ -34,7 +34,6 @@ _directory_of_associations_import: &directory_of_associations_import
                     column: bio
                 budget:
                     column: budget
-                    formatter: number
                 member_count:
                     column: member_count
                     formatter: integer
@@ -46,6 +45,257 @@ _directory_of_associations_import: &directory_of_associations_import
                     formatter: integer
 
 import:
-    directory_of_associations:
+    directory_of_associations_ak:
         <<: *directory_of_associations_import
         tags: [organization, association]
+        states: AK
+
+    directory_of_associations_al:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: AL
+
+    directory_of_associations_ar:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: AR
+
+    directory_of_associations_az:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: AZ
+
+    directory_of_associations_ca:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: CA
+
+    directory_of_associations_co:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: CO
+
+    directory_of_associations_ct:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: CT
+
+    directory_of_associations_dc:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: DC
+
+    directory_of_associations_de:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: DE
+
+    directory_of_associations_fl:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: FL
+
+    directory_of_associations_ga:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: GA
+
+    directory_of_associations_hi:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: HI
+
+    directory_of_associations_ia:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: IA
+
+    directory_of_associations_id:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: ID
+
+    directory_of_associations_il:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: IL
+
+    directory_of_associations_in:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: IN
+
+    directory_of_associations_ks:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: KS
+
+    directory_of_associations_ky:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: KY
+
+    directory_of_associations_la:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: LA
+
+    directory_of_associations_ma:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: MA
+
+    directory_of_associations_md:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: MD
+
+    directory_of_associations_me:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: ME
+
+    directory_of_associations_mi:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: MI
+
+    directory_of_associations_mn:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: MN
+
+    directory_of_associations_mo:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: MO
+
+    directory_of_associations_ms:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: MS
+
+    directory_of_associations_mt:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: MT
+
+    directory_of_associations_nc:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: NC
+
+    directory_of_associations_nd:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: ND
+
+    directory_of_associations_ne:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: NE
+
+    directory_of_associations_nh:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: NH
+
+    directory_of_associations_nj:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: NJ
+
+    directory_of_associations_nm:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: NM
+
+    directory_of_associations_nv:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: NV
+
+    directory_of_associations_ny:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: NY
+
+    directory_of_associations_oh:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: OH
+
+    directory_of_associations_ok:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: OK
+
+    directory_of_associations_or:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: OR
+
+    directory_of_associations_pa:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: PA
+
+    directory_of_associations_ri:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: RI
+
+    directory_of_associations_sc:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: SC
+
+    directory_of_associations_sd:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: SD
+
+    directory_of_associations_tn:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: TN
+
+    directory_of_associations_tx:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: TX
+
+    directory_of_associations_ut:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: UT
+
+    directory_of_associations_va:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: VA
+
+    directory_of_associations_vt:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: VT
+
+    directory_of_associations_wa:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: WA
+
+    directory_of_associations_wi:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: WI
+
+    directory_of_associations_wv:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: WV
+
+    directory_of_associations_wy:
+        <<: *directory_of_associations_import
+        tags: [organization, association]
+        states: WY
