@@ -1,11 +1,19 @@
-config:
-    module_name: associations
-    data_name: association
-    parent_data_name: organization
+_base_model: &base_model
+    admin_roles: [ association-admin ]
+    view_roles: [ association-auditor ]
 
-pre_run:
-    data_fields:
-        _config:
+roles:
+    association-admin: Association administrator (full privileges over all associations)
+    association-auditor: Associationt auditor (viewing privileges over all associations)
+
+models:
+    association:
+        <<: *base_model
+        base: organization
+        extend: true
+        display: "<name>"
+        priority: 70
+        fields:
             url:
                 type: url
             type:
@@ -20,37 +28,3 @@ pre_run:
                 type: integer
             budget:
                 type: string
-
-run:
-    admin_role:
-        _command: template generate
-        module_name: "@module_name"
-        module_template: user/role
-        template_fields:
-            name: "@{data_name}-admin"
-            help: "#capitalize(@data_name) administrator"
-
-    association_model:
-        _command: template generate
-        module_name: "@module_name"
-        module_template: data/model
-        template_fields:
-            name: "@data_name"
-            base: "@parent_data_name"
-            extend: True
-            admin_roles: [ "@{parent_data_name}-admin", "@{data_name}-admin" ]
-            view_roles: public
-            resource_priority: 70
-            command_mixins: "@parent_data_name"
-            mixin_priority: 5
-
-    "<<dict_key>>_field":
-        _command: template generate
-        _requires: association_model
-        _foreach: "@data_fields"
-        module_name: "@module_name"
-        module_template: "field/<<type>>"
-        template_fields:
-            data_name: "@data_name"
-            field_name: "<<dict_key>>"
-            "<<options>>":
