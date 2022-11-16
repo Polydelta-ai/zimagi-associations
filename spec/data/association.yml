@@ -1,0 +1,106 @@
+data_mixins:
+  association:
+    class: AssociationMixin
+    fields:
+      association:
+        type: '@django.ForeignKey'
+        relation: association
+        options:
+          on_delete: '@django.PROTECT'
+  association_optional:
+    class: AssociationOptionalMixin
+    fields:
+      association:
+        type: '@django.ForeignKey'
+        relation: association
+        options:
+          on_delete: '@django.SET_NULL'
+          'null': true
+  associations:
+    class: AssociationMultipleMixin
+    fields:
+      associations:
+        type: '@django.ManyToManyField'
+        relation: association
+        options:
+          blank: true
+data_base:
+  association:
+    class: AssociationBase
+    base: id_resource
+    mixins:
+    - association
+    id_fields:
+    - association_id
+    - name
+    meta:
+      unique_together:
+      - association
+      - name
+      scope: association
+data:
+  association:
+    class: Association
+    extend: organization
+    api: true
+    display: <name>
+    roles:
+      edit:
+      - association-admin
+      view:
+      - association-auditor
+    fields:
+      year_founded:
+        type: '@django.IntegerField'
+        options:
+          'null': true
+          default: null
+          editable: true
+          system: false
+      url:
+        type: '@django.URLField'
+        options:
+          'null': true
+          default: null
+          max_length: 256
+          editable: true
+          system: false
+      member_count:
+        type: '@django.IntegerField'
+        options:
+          'null': true
+          default: null
+          editable: true
+          system: false
+      budget:
+        type: '@django.CharField'
+        options:
+          'null': true
+          default: null
+          max_length: 256
+          editable: true
+          system: false
+      bio:
+        type: '@django.TextField'
+        options:
+          'null': true
+          default: null
+          editable: true
+          system: false
+      staff_count:
+        type: '@django.IntegerField'
+        options:
+          'null': true
+          default: null
+          editable: true
+          system: false
+      type:
+        type: '@django.CharField'
+        options:
+          'null': true
+          default: null
+          max_length: 256
+          editable: true
+          system: false
+    meta:
+      unique_together: []

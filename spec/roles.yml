@@ -1,0 +1,3 @@
+roles:
+  association-admin: Association administrator (full privileges over all associations)
+  association-auditor: Associationt auditor (viewing privileges over all associations)
