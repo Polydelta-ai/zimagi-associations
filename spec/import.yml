@@ -20,7 +20,7 @@ _directory_of_associations_import: &directory_of_associations_import
                 zipcode:
                     column: zipcode
                     validators:
-                        number:
+                        string:
                             empty: false
         association:
             requires: [location]
