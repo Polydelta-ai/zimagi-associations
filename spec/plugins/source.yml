@@ -6,4 +6,4 @@ plugin:
                     states:
                         type: list
                         default: null
-                        help: "States to lookup."
+                        help: "States to lookup"
