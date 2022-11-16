@@ -1,7 +1,37 @@
 _directory_of_associations_import: &directory_of_associations_import
     source: directory_of_associations
     data:
+        location:
+            map:
+                city:
+                    column: city
+                    validators:
+                        string:
+                            empty: false
+                    formatter:
+                        provider: capitalize
+                        words: true
+                state:
+                    column: state
+                    validators:
+                        string:
+                            empty: false
+                    formatter: upper
+                zipcode:
+                    column: zipcode
+                    validators:
+                        number:
+                            empty: false
         association:
+            requires: [location]
+            relations:
+                location_id:
+                    data: location
+                    required: true
+                    scope:
+                        city: "#capitalize(city, words=true)"
+                        state: "#upper(state)"
+                        zipcode: zipcode
             map:
                 name:
                     column: name
@@ -10,21 +40,6 @@ _directory_of_associations_import: &directory_of_associations_import
                             empty: false
                 type:
                     column: type
-                    validators:
-                        string:
-                            empty: false
-                city:
-                    column: city
-                    validators:
-                        string:
-                            empty: false
-                state:
-                    column: state
-                    validators:
-                        string:
-                            empty: false
-                zipcode:
-                    column: zipcode
                     validators:
                         string:
                             empty: false
